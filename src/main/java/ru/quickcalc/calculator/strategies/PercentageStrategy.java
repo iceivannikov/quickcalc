@@ -6,6 +6,7 @@ import ru.quickcalc.calculator.model.ActionResult;
 public class PercentageStrategy implements CalculatorAction {
 
     private static final int NO_OPERATOR = -1;
+    public static final char[] STANDARD_OPERATORS = {'+', '-', '*', '/'};
 
     @Override
     public ActionResult execute(String currentInput) {
@@ -33,12 +34,8 @@ public class PercentageStrategy implements CalculatorAction {
     }
 
     private int getLastOperatorIndex(String input) {
-        return getLastOperatorIndex(input, new char[]{'+', '-', '*', '/'});
-    }
-
-    private int getLastOperatorIndex(String input, char[] operators) {
         int lastIndex = NO_OPERATOR;
-        for (char operator : operators) {
+        for (char operator : STANDARD_OPERATORS) {
             lastIndex = Math.max(lastIndex, input.lastIndexOf(operator));
         }
         return lastIndex;
@@ -46,7 +43,7 @@ public class PercentageStrategy implements CalculatorAction {
 
     private String getBasePart(String input, int lastOperatorIndex) {
         if (lastOperatorIndex < 0 || lastOperatorIndex >= input.length()) {
-            throw new IllegalArgumentException("Invalid lastOperatorIndex: " + lastOperatorIndex);
+            throw new IllegalArgumentException("Operator index is out of range: " + lastOperatorIndex);
         }
         return input.substring(0, lastOperatorIndex);
     }
